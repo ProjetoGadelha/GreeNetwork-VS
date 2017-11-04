@@ -1,0 +1,142 @@
+﻿@{
+    bool? usuarioAutenticado = Session["UsuarioAutenticado"] as bool?;
+    //já esta logado?
+    if (usuarioAutenticado == true)
+    {
+        Response.Redirect("~/inicial");
+    }
+
+    int Exce = Convert.ToInt32(Request.QueryString["Exce"]);
+
+    if (IsPost)
+    {
+        Usuario ObjUser = new Usuario();
+
+        ObjUser.NomeUser = Request.Form["Nome"];
+        ObjUser.ApelidoUser = Request.Form["Apelido"];
+        ObjUser.EmailUser = Request.Form["Email"];
+        ObjUser.PassUser = Request.Form["Confirm"];
+
+        ObjUser.NivelUser = 0;
+        Random rdn = new Random();
+        int CpfAleatorio;
+
+        CpfAleatorio = rdn.Next(0, 999999);
+        ObjUser.CpfUser = Convert.ToString(CpfAleatorio);
+        try
+        {
+            ObjUser.Insert();
+        }
+        catch (Exception)
+        {
+            Response.Redirect("~/?Exce=3");
+        }
+    }
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>GreeNetwork - Entrar</title>
+    <!-- Favicon-->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+
+    <!-- Bootstrap Core Css -->
+    <link href="assets/plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Waves Effect Css -->
+    <link href="assets/plugins/node-waves/waves.css" rel="stylesheet" />
+
+    <!-- Animation Css -->
+    <link href="assets/plugins/animate-css/animate.css" rel="stylesheet" />
+
+    <!-- Custom Css -->
+    <link href="assets/css/style.css" rel="stylesheet">
+</head>
+
+<body class="login-page back">
+    <div class="login-box">
+        <!--<div class="logo">
+            <img src="assets/images/logo.png" class="img-responsive" />
+        </div>-->
+        <div class="card">
+            <div class="body">
+                <form id="sign_in" method="POST" action="inicial">
+                    <div class="msg"><img src="assets/images/logo.png" class="img-responsive" /></div>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="material-icons">person</i>
+                        </span>
+                        <div class="form-line">
+                            <input type="text" class="form-control" name="username" placeholder="E-mail" title="Digite seu Email Cadastrado" required autofocus>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="material-icons">lock</i>
+                        </span>
+                        <div class="form-line">
+                            <input type="password" class="form-control" name="password" placeholder="Senha" title="Digite a sua senha" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <button class="btn btn-block bg-green waves-effect" type="submit">Entrar</button>
+                        </div>
+                    </div>
+                    <div class="row m-t-15 m-b--20">
+                        <div class="col-xs-6">
+                            <a href="~/cadastro.cshtml">Registrar!</a>
+                        </div>
+                        <div class="col-xs-6 align-right">
+                            <a href="~/esqueceuSuaSenha.cshtml">Esqueceu sua senha?</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            @switch (Exce)
+            {
+                case 1:
+                    <div class="alert alert-danger">
+                        Usuario ou senha Incorreto
+                    </div>
+                    break;
+                case 2:
+                    <div class="alert alert-warning">
+                        Usuario não logado
+                    </div>
+                    break;
+                case 3:
+                    <div class="alert alert-warning">
+                        Usuario não inserido, por favor entre em contato com o Administrador
+                    </div>
+                    break;
+                case 4:
+                    <div class="alert alert-warning">
+                        LogOff feito com Sucesso
+                    </div>
+                    break;
+                default:
+                    Console.WriteLine("Default case");
+                    break;
+            }
+        </div>
+    </div>
+    <!-- Jquery Core Js -->
+    <script src="assets/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap Core Js -->
+    <script src="assets/plugins/bootstrap/js/bootstrap.js"></script>
+    <!-- Waves Effect Plugin Js -->
+    <script src="assets/plugins/node-waves/waves.js"></script>
+    <!-- Validation Plugin Js -->
+    <script src="assets/plugins/jquery-validation/jquery.validate.js"></script>
+    <!-- Custom Js -->
+    <script src="assets/js/admin.js"></script>
+    <script src="assets/js/pages/examples/sign-in.js"></script>
+</body>
+</html>

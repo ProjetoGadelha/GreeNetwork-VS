@@ -1,0 +1,219 @@
+﻿@{
+    if (IsPost)
+    {
+        string LoginUser = Request.Form["username"];
+        string PassUser = Request.Form["password"];
+
+        Usuario Objuser = Usuario.Login(LoginUser, PassUser);
+
+        if (Objuser != null)
+        {
+            Session["UsuarioAutenticado"] = true;
+            Session["UsuarioLogado"] = Objuser;
+        }
+        else
+        {
+            Response.Redirect("/?Exce=1");
+        }
+    }
+    bool? usuarioAutenticado = Session["UsuarioAutenticado"] as bool?;
+
+    if (usuarioAutenticado == null || usuarioAutenticado == false)
+    {
+        Response.Redirect("~/?Exce=2");
+    }
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>GreeNetwork - Jogos</title>
+    <!-- Favicon-->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+
+    <!-- Bootstrap Core Css -->
+    <link href="assets/plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <!-- Bootstrap Core Css -->
+    <link href="assets/plugins/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <!-- Waves Effect Css -->
+    <link href="assets/plugins/node-waves/waves.css" rel="stylesheet" />
+
+    <!-- Animation Css -->
+    <link href="assets/plugins/animate-css/animate.css" rel="stylesheet" />
+
+    <!-- Custom Css -->
+    <link href="assets/css/style.css" rel="stylesheet">
+
+    <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
+    <link href="assets/css/themes/all-themes.css" rel="stylesheet" />
+</head>
+
+<body class="theme-green back">
+    <!-- Overlay For Sidebars -->
+    <div class="overlay"></div>
+    <!-- #END# Overlay For Sidebars -->
+    <!-- Top Bar -->
+    <nav class="navbar">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a href="javascript:void(0);" class="bars"></a>
+                <a class="navbar-brand" href="index.html"><img src="assets/images/logo-b.png" class="img-responsive" width="250px" height="100%" /></a>
+            </div>
+        </div>
+    </nav>
+    <!-- #Top Bar -->
+    <section>
+        <!-- Left Sidebar -->
+        <aside id="leftsidebar" class="sidebar">
+            <!-- User Info -->
+            <div class="user-info">
+                <div class="image">
+                    <img src="assets/images/user.png" width="48" height="48" alt="User" />
+                </div>
+                <div class="info-container">
+
+                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    </div>
+                    <div class="email">john.doe@example.com</div>
+                </div>
+            </div>
+            <!-- #User Info -->
+            <!-- Menu -->
+            <div class="menu">
+                <ul class="list">
+                    <li class="active">
+                        <a href="inicial">
+                            <i class="fa fa-home fa-2x"></i>
+                            <span>Home</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="perfil">
+                            <i class="fa fa-user fa-2x"></i>
+                            <span>Perfil</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="~/LogOff.cshtml">
+                            <i class="fa fa-power-off fa-2x"></i>
+                            <span>Sair</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+            <!-- #Menu -->
+            <!-- Footer -->
+            <div class="legal">
+                <div class="copyright">
+                    &copy; 2017 <a href="javascript:void(0);">GreeNetwork</a>.
+                </div>
+                <div class="version">
+                    <b>Versão: </b> 1
+                </div>
+            </div>
+            <!-- #Footer -->
+        </aside>
+        <!-- #END# Left Sidebar -->
+    </section>
+
+    <section class="content">
+        <div class="container-fluid">
+            <!-- Button Examples -->
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="body">
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active col-sm-4">
+                                    <a href="inicial">
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fa fa-square-o fa-stack-2x"></i>
+                                            <i class="fa fa-gamepad fa-stack-1x"></i>
+                                        </span> Jogos
+                                    </a>
+                                </li>
+                                <li role="presentation" class="col-sm-4">
+                                    <a href="ranking">
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fa fa-square-o fa-stack-2x"></i>
+                                            <i class="fa fa-trophy fa-stack-1x"></i>
+                                        </span> Ranking
+                                    </a>
+                                </li>
+                                <li role="presentation" class="col-sm-4">
+                                    <a href="recompensa">
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fa fa-square-o fa-stack-2x"></i>
+                                            <i class="fa fa-gift fa-stack-1x"></i>
+                                        </span> Recompensa
+                                    </a>
+                                </li>
+                            </ul>
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane fade active in" id="home_animation_1">
+                                    <div class="row clearfix divCenter">
+                                        <div class="col-lg-12 col-md-12 col-sm-6 col-xs-12">
+                                            <div class="info-box hover-zoom-effect">
+                                                <div class="icon bg-amber">
+                                                    <i class="material-icons">import_contacts</i>
+                                                </div>
+                                                <div style="width: 85%" class="content">
+                                                    <div class="text">Modo</div>
+                                                    <div class="number">
+                                                        Classico
+                                                        <button style="float: right;" type="button" onclick="window.location.href = 'selecionarAssunto.cshtml';" class="btn bg-amber waves-effect">Jogar</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row clearfix divCenter">
+                                        <div class="col-lg-12 col-md-12 col-sm-6 col-xs-12">
+                                            <div class="info-box hover-zoom-effect">
+                                                <div class="icon bg-blue">
+                                                    <i class="material-icons">extension</i>
+                                                </div>
+                                                <div style="width: 85%" class="content">
+                                                    <div class="text">Modo</div>
+                                                    <div class="number">
+                                                        Desafio
+                                                        <button style="float: right;" type="button" onclick="window.location.href = 'selecionarAssunto.cshtml';" class="btn bg-blue waves-effect">Jogar</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- #END# Button Examples -->
+        </div>
+    </section>
+
+    <!-- Jquery Core Js -->
+    <script src="assets/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap Core Js -->
+    <script src="assets/plugins/bootstrap/js/bootstrap.js"></script>
+    <!-- Select Plugin Js -->
+    <script src="assets/plugins/bootstrap-select/js/bootstrap-select.js"></script>
+    <!-- Slimscroll Plugin Js -->
+    <script src="assets/plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
+    <!-- Waves Effect Plugin Js -->
+    <script src="assets/plugins/node-waves/waves.js"></script>
+    <!-- Custom Js -->
+    <script src="assets/js/admin.js"></script>
+    <!-- Demo Js -->
+    <script src="assets/js/demo.js"></script>
+</body>
+</html>
